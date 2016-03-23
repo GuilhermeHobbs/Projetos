@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="iso-8859-1">
+<title>Gerador de Quadrados Mágicos</title>
+
+<style>
+
+body {
+
+background: black;
+color: white;
+
+}
+
+p {
+
+font: normal bold 18px Arial, serif;
+text-align: center;
+
+}
+
+div {
+
+display: block;
+margin: 50px auto;
+width: 400px;
+
+}
+
+div input {
+
+display: block;
+margin: 0px auto;
+width: 100px;
+
+}
+
+table {
+
+color: green;
+margin: 10px auto;
+border-collapse: collapse;
+}
+
+table, th, td {
+    border: 2px solid green;
+	padding: 5px;
+	}
+
+
+
+
+</style>
+
+<script>
+
+var Quad = [];
+
+function geraQuad(n) {
+
+var i,x,y;
+
+for (i=1;i<=n*n;i++) Quad[i] = 0;
+
+
+x = Math.ceil(n/2);
+
+
+for (i=1,y=1;i<=n*n;i++) {
+
+Quad[n*(y-1) + x] = i;
+
+y--;
+
+x++;
+
+if (Quad[n*(y-1) + x] != 0 && y != 0 && x != n+1) { 
+
+y+=2;
+
+x--;
+
+continue;
+
+}
+
+if (y == 0 && x != n+1) {
+
+y = n;
+
+if (Quad[n*(y-1) + x] != 0) { 
+
+y = 2;
+
+x--;
+
+}
+
+continue;
+
+}
+
+
+if (x == n+1 && y != 0) {
+
+x = 1;
+
+if (Quad[n*(y-1) + x] != 0) { 
+
+x = n;
+
+y+=2;
+
+}
+
+continue;
+
+}
+
+
+if (x == n+1 && y == 0) {
+
+if (Quad[n*(n-1) + 1] != 0) { 
+
+x = n;
+
+y=2;
+
+}
+
+else {
+
+y=n;
+
+x=1;
+
+}
+
+continue;
+
+}
+
+}
+
+}
+
+function desenhar(larg) {
+
+var j,i, linha, celula, numero;
+
+var Tab = document.getElementById("Tab");
+
+Tab.innerHTML = "";
+
+for (i=1;i<=larg;i++) {
+
+linha = document.createElement("TR");
+
+Tab.appendChild(linha);
+
+for (j=1;j<=larg;j++) {
+
+celula = document.createElement("TD");
+
+numero = document.createTextNode (Quad[larg*(i-1) + j]);
+
+celula.appendChild(numero);
+
+linha.appendChild(celula);
+
+}
+
+}
+
+}
+
+
+window.addEventListener("load", function () {
+
+document.getElementById("numero").addEventListener("change", function (e) {
+
+var num = Number(e.target.value);
+
+if (!num || !Number.isInteger(num) || num<3 || !(num%2)) document.getElementById("numero").value = "Número inválido.";
+
+else {
+
+geraQuad(num);
+
+desenhar(num);
+
+}
+
+});
+
+});
+
+</script>
+
+</head>
+
+<body>
+
+<p>Quadrado Mágico é uma tabela quadrada de números em progressão aritmética<br>onde a soma de cada coluna, de cada linha e das duas diagonais resulta sempre no mesmo valor.</p>
+
+<div>
+<p>Digite um inteiro positivo ímpar maior que 1: </p>
+<input type="text" name="numero" id="numero">
+</div>
+
+<table id="Tab"></table>
+
+</body>
+
+</html>
+

@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Jogo da Velha</title>
+
+<style>
+
+body {
+
+background: black;
+
+}
+
+#Jogo {
+
+margin: 100px auto;
+
+}
+
+#Jogo td {
+
+width: 150px;
+height: 100px;
+margin: 10px;
+background: green;
+
+} 
+
+#QuemGanhou {
+
+text-decoration: blink;
+font: 14px bold Times;
+color: yellow;
+
+}
+
+</style>
+
+
+
+<script>
+
+var i,j,targetBloco, quadradoMarcado;
+
+var matrix = [];
+
+for (i=0;i<9;i++) matrix[i] = 0;
+
+function seraQueGanhei () {
+
+for (i=0;i<9;i++) if (matrix[i] == 2) {
+
+for (j=0;j<i;j++) if (matrix[j] == 2) {
+
+switch (i-j) { 
+
+case 1: 
+
+if (i == 3 || i == 6) break;
+
+if (i == 2 || i == 5 || i == 8) {
+
+if (matrix[i-2] == 0) { matrix[i-2] = 2; colorir(); venci(); return; } 
+
+}
+
+else { if (matrix[i+1] == 0) { matrix[i+1] = 2; colorir(); venci(); return; } }
+
+break;
+
+case 2:
+
+if (i == 2 || i == 5 || i == 8) {
+
+if (matrix[i-1] == 0) { matrix[i-1] = 2; colorir(); venci(); return; } 
+
+}
+
+if (i == 4) {
+
+if  (matrix[6] == 0) { matrix[6] = 2; colorir(); venci(); return; } 
+
+}
+
+if (i == 6) {
+
+if  (matrix[2] == 0) { matrix[2] = 2; colorir(); venci(); return; } 
+
+}
+
+
+break;
+
+case 3: 
+
+if (i > 5) {
+
+if (matrix[i-6] == 0) { matrix[i-6] = 2; colorir(); venci(); return; }
+
+else break;
+
+}
+
+else {
+
+if (matrix[i+3] == 0) { matrix[i+3] = 2; colorir(); venci(); return; }
+
+else break;
+
+
+}
+
+break;
+
+
+case 4:
+
+if (i==8) if (matrix[0] == 0) { matrix[0] = 2; colorir(); venci(); return; }
+
+if (i==4) if (matrix[8] == 0) { matrix[8] = 2; colorir(); venci(); return; }
+
+if (i==6) if (matrix[4] == 0) { matrix[4] = 2; colorir(); venci(); return; }
+
+break;
+
+
+case 6:
+
+if (matrix[i-3] == 0) { matrix[i-3] = 2; colorir(); venci(); return; }
+
+break;
+
+case 8:
+
+if (matrix[4] == 0) { matrix[4] = 2; colorir(); venci(); return; }
+
+break;
+
+
+}
+
+}
+
+}
+
+defender();
+
+}
+
+
+function defender () {
+
+for (i=0;i<9;i++) if (matrix[i] == 1) {
+
+for (j=0;j<i;j++) if (matrix[j] == 1) {
+
+switch (i-j) { 
+
+case 1: 
+
+if (i == 3 || i == 6) break;
+
+if (i == 2 || i == 5 || i == 8) {
+
+if (matrix[i-2] == 0) { matrix[i-2] = 2; return; } 
+
+
+}
+
+else { if (matrix[i+1] == 0) { matrix[i+1] = 2; return; } }
+
+break;
+
+case 2:
+
+if (i == 2 || i == 5 || i == 8) {
+
+if (matrix[i-1] == 0) { matrix[i-1] = 2; return; } 
+
+}
+
+if (i == 4) {
+
+if  (matrix[6] == 0) { matrix[6] = 2; return; } 
+
+}
+
+if (i == 6) {
+
+if  (matrix[2] == 0) { matrix[2] = 2; return; } 
+
+}
+
+
+break;
+
+case 3: 
+
+if (i > 5) {
+
+if (matrix[i-6] == 0) { matrix[i-6] = 2; return; }
+
+else break;
+
+}
+
+else {
+
+if (matrix[i+3] == 0) { matrix[i+3] = 2; return; }
+
+else break;
+
+
+}
+
+break;
+
+case 4:
+
+if (i==8) if (matrix[0] == 0) { matrix[0] = 2; return; }
+
+if (i==4) if (matrix[8] == 0) { matrix[8] = 2; return; }
+
+if (i==6) if (matrix[4] == 0) { matrix[4] = 2; return; }
+
+break;
+
+case 6:
+
+if (matrix[i-3] == 0) { matrix[i-3] = 2; return; }
+
+break;
+
+
+}
+
+}
+
+}
+
+// alert ("ATACAR")
+
+atacar();
+
+}
+
+
+function atacar () {
+
+for (i=0;i<9;i++) if (matrix[i] == 2) {
+
+for (j=0;j<i;j++) if (matrix[j] == 0) {
+
+switch (i-j) { 
+
+case 1: 
+
+if (i == 3 || i == 6) break;
+
+if (i == 2 || i == 5 || i == 8) {
+
+if (matrix[i-2] == 0) { matrix[i-2] = 2; return; } 
+
+
+}
+
+else { if (matrix[i+1] == 0) { matrix[i+1] = 2; return; } }
+
+break;
+
+case 2:
+
+if (i == 2 || i == 5 || i == 8) {
+
+if (matrix[i-1] == 0) { matrix[i-1] = 2; return; } 
+
+}
+
+if (i == 4) {
+
+if  (matrix[6] == 0) { matrix[6] = 2; return; } 
+
+}
+
+break;
+
+
+case 3: 
+
+if (i > 5) {
+
+if (matrix[i-6] == 0) { matrix[i-6] = 2; return; }
+ 
+else break;
+
+}
+
+else {
+
+if (matrix[i+3] == 0) { matrix[i+3] = 2; return; }
+
+else break;
+
+
+}
+
+break;
+
+
+case 4:
+
+if (i==8) if (matrix[0] == 0) { matrix[0] = 2; return; }
+
+if (i==4) if (matrix[8] == 0) { matrix[8] = 2; return; }
+
+if (i==6) if (matrix[4] == 0) { matrix[4] = 2; return; }
+
+break;
+
+case 6:
+
+if (matrix[i-3] == 0) { matrix[i-3] = 2; return; }
+
+break;
+
+
+}
+
+}
+
+}
+
+
+if (matrix[4] == 0) {
+
+matrix[4] = 2;
+
+return;
+
+}
+
+for (i=0;i<9;i++) if (matrix[i] == 0) {
+
+for (j=0;j<i;j++) if (matrix[j] == 0) {
+
+switch (i-j) { 
+
+case 1: 
+
+if (i == 3 || i == 6) break;
+
+if (i == 2 || i == 5 || i == 8) {
+
+if (matrix[i-2] == 0) { matrix[i-2] = 2; return; } 
+
+
+}
+
+else { if (matrix[i+1] == 0) { matrix[i+1] = 2; return; } }
+
+break;
+
+case 3: 
+
+if (i > 5) {
+
+if (matrix[i-6] == 0) { matrix[i-6] = 2; return; }
+
+else break;
+
+}
+
+else {
+
+if (matrix[i+3] == 0) { matrix[i+3] = 2; return; }
+
+else break;
+
+
+}
+
+break;
+
+
+case 4:
+
+if (i==8) if (matrix[0] == 0) { matrix[0] = 2; return; }
+
+if (i==4) if (matrix[8] == 0) { matrix[8] = 2; return; }
+
+break;
+
+
+case 8:
+
+if (matrix[4] == 0) { matrix[4] = 2; return; }
+
+break;
+
+}
+
+}
+
+}
+
+// alert ("Empate");
+
+empate();
+
+}
+
+
+function venci() {
+
+document.getElementById("QuemGanhou").innerHTML = "EU VENCI!!!";
+
+document.getElementById("Jogo").removeEventListener('click', clickInit, false);
+
+}
+
+
+function empate() {
+
+var i;
+
+for (i=0;i<9;i++) if (matrix[i] == 0) { matrix[i] = 2; break; }
+
+colorir();
+
+document.getElementById("QuemGanhou").innerHTML = "Empate!";
+
+}
+
+
+function colorir () {
+
+
+var i;
+
+for (i=0;i<9;i++) switch (matrix[i]) {
+
+case 0: 
+
+document.getElementById(String(i)).style.backgroundColor = "green";
+
+break;
+
+case 1: 
+
+document.getElementById(String(i)).style.backgroundColor = "blue";
+
+break;
+
+case 2:
+
+document.getElementById(String(i)).style.backgroundColor = "red";
+
+break;
+
+
+}
+
+}
+
+
+function clickInit (event) {
+
+matrix[event.target.getAttribute("id")] = 1;
+
+seraQueGanhei ();
+
+colorir();
+
+}
+
+
+window.addEventListener("load", function () {
+
+var Jogo = document.getElementById("Jogo");
+
+Jogo.addEventListener("click", clickInit);
+
+});
+
+
+</script>
+
+</head>
+
+<body>
+
+<table id="Jogo">
+  <tr>
+    <td id="0"></td>
+    <td id="1"></td> 
+    <td id="2"></td>
+   </tr>
+  
+   <tr>
+    <td id="3"></td>
+    <td id="4"></td> 
+    <td id="5"></td>
+  </tr>
+
+  <tr>
+    <td id="6"></td>
+    <td id="7"></td> 
+    <td id="8"></td>
+  </tr>
+
+
+</table>
+
+<p id="QuemGanhou"></p>
+
+</body>
+
+</html>
